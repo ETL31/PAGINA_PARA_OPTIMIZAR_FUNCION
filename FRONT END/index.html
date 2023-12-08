@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Optimización</title>
+</head>
+<body>
+    <div class="container">
+        <h2>UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS</h2>
+        
+        <h4>Ernesto Mihael Tolentino León</h4>
+        <h4>jorge daniel lizana ventura</h4>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" placeholder="Ingrese nombre">
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" placeholder="Ingrese apellido">
+
+        <label for="correo">Correo Institucional:</label>
+        <input type="text" id="correo" placeholder="Ingrese información">
+        
+        <div class="checkboxes">
+            <label for="conRestriccion">Con Restricción</label>
+            <input type="checkbox" id="conRestriccion" name="restriccion" onclick="checkOnlyOne(this)">
+
+            <label for="sinRestriccion">Sin Restricción</label>
+            <input type="checkbox" id="sinRestriccion" name="restriccion" onclick="checkOnlyOne(this)">
+        </div>
+
+        <button onclick="ingresar()">INGRESAR</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

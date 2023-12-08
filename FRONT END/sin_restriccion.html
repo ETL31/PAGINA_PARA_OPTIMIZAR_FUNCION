@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Optimización sin Restricción</title>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Optimización sin Restricción</h2>
+        <div class="user-info mt-4">
+            <label for="funcionObjetivo">Funcion Objetivo F(x, y):</label>
+            <input type="text" id="funcionObjetivo" class="form-control" placeholder="Ingresar función objetivo" />
+           
+        </div>
+        <button class="btn btn-primary mt-4" onclick="calcularOptimizacion()">Calcular</button>
+
+        <div class="optimization-results mt-4">
+            <p><strong>Proceso y resultados de la optimización sin restricción:</strong></p>
+            <!-- Mostrar proceso y resultados aquí -->
+        </div>
+        <script src="script.js"></script>
+    </div>
+<button class="btn btn-primary mt-4" onclick="window.location.href='index.html'">Volver al Index</button>
+
+
+<script>
+    function calcularOptimizacion() {
+        var funcionObjetivo = document.getElementById('funcionObjetivo').value;
+
+        if (funcionObjetivo.trim() === '') {
+            alert('Por favor, ingresa una función objetivo.');
+            return;
+        }
+
+        var data = {
+            funcion: funcionObjetivo
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8001', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var respuesta = JSON.parse(xhr.responseText);
+                    mostrarResultados(respuesta);
+                } else {
+                    alert('Error al calcular la optimización. Por favor, inténtalo de nuevo.');
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+
+    function mostrarResultados(resultados) {
+        var optimizationResults = document.querySelector('.optimization-results');
+        optimizationResults.innerHTML = '<p><strong>Proceso y resultados de la optimización sin restricción:</strong></p>';
+
+        // Mostrar la función cúbica
+        var cubicFunctionParagraph = document.createElement('p');
+        cubicFunctionParagraph.textContent = 'Función Cúbica: ' + resultados.cubic_function;
+        optimizationResults.appendChild(cubicFunctionParagraph);
+
+        // Mostrar los puntos críticos
+        var criticalPointsHeader = document.createElement('p');
+        criticalPointsHeader.textContent = 'Puntos Críticos:';
+        optimizationResults.appendChild(criticalPointsHeader);
+
+        resultados.critical_points.forEach(function (point) {
+            var criticalPointParagraph = document.createElement('p');
+            criticalPointParagraph.textContent = '(' + point[0] + ', ' + point[1] + ')';
+            optimizationResults.appendChild(criticalPointParagraph);
+        });
+
+        // Mostrar los extremos relativos
+        var relativeExtremesHeader = document.createElement('p');
+        relativeExtremesHeader.textContent = 'Extremos Relativos:';
+        optimizationResults.appendChild(relativeExtremesHeader);
+
+        resultados.relative_extremes.forEach(function (extremum) {
+            var extremumParagraph = document.createElement('p');
+            extremumParagraph.textContent = 'Tipo: ' + extremum.classification + ', Punto: (' + extremum.point[0] + ', ' + extremum.point[1] + ')';
+            optimizationResults.appendChild(extremumParagraph);
+        });
+    }
+</script>
+
+</body>
+</html>
